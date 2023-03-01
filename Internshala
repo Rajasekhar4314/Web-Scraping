@@ -1,0 +1,38 @@
+Write a python program to Scrape the below-mentioned site and bring in the list of the first 10 postings under the "Search Postings" heading containing the following fields: Est. Value Notes: Description Closing Date
+https://qcpi.questcdn.com/cdn/posting/?group=1950787&provider=1950787 Please copy and paste your code (or give a link to your code) 
+and mention any pip install requirements with it.
+
+pip install requests BeautifulSoup4
+
+import requests
+from bs4 import BeautifulSoup
+
+# Define the URL of the website to be scraped
+url = 'https://qcpi.questcdn.com/cdn/posting/?group=1950787&provider=1950787'
+
+# Send a GET request to the website
+response = requests.get(url)
+
+# Parse the HTML content of the website using BeautifulSoup
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Find the table containing the list of postings
+table = soup.find('table', {'class': 'table table-hover table-striped'})
+
+# Find all the rows in the table
+rows = table.find_all('tr')
+
+# Iterate over the rows and extract the required information for the first 10 postings
+for row in rows[1:11]:
+    columns = row.find_all('td')
+    est_value = columns[0].text.strip()
+    notes = columns[1].text.strip()
+    description = columns[2].text.strip()
+    closing_date = columns[3].text.strip()
+    
+    # Print the extracted information
+    print('Est. Value:', est_value)
+    print('Notes:', notes)
+    print('Description:', description)
+    print('Closing Date:', closing_date)
+    print()
